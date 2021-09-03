@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.counter1serverinterviewsolution.data.LoginRepository;
+import com.example.counter1serverinterviewsolution.data.repository.LoginRepository;
 import com.example.counter1serverinterviewsolution.data.Result;
 import com.example.counter1serverinterviewsolution.data.model.LoggedInUser;
 import com.example.counter1serverinterviewsolution.R;

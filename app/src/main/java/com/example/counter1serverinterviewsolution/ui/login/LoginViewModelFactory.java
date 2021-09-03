@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import com.example.counter1serverinterviewsolution.data.LoginDataSource;
-import com.example.counter1serverinterviewsolution.data.LoginRepository;
+import com.example.counter1serverinterviewsolution.data.dao.LoginDataSource;
+import com.example.counter1serverinterviewsolution.data.repository.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

@@ -1,5 +1,7 @@
-package com.example.counter1serverinterviewsolution.data;
+package com.example.counter1serverinterviewsolution.data.repository;
 
+import com.example.counter1serverinterviewsolution.data.Result;
+import com.example.counter1serverinterviewsolution.data.dao.LoginDataSource;
 import com.example.counter1serverinterviewsolution.data.model.LoggedInUser;
 
 /**
