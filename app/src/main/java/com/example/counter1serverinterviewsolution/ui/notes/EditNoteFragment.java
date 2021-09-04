@@ -50,7 +50,6 @@ public class EditNoteFragment extends Fragment {
 
         mViewModel = new ViewModelProvider(this, new NotesListViewModelFactory()).get(NotesListViewModel.class);
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory()).get(LoginViewModel.class);
-        /// Initializes the userParam in the Notes view model
     }
 
     @Override
@@ -63,7 +62,6 @@ public class EditNoteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewModel.init(loginViewModel.getUser());
 
         EditText noteTitle = binding.editTextTitle;
         EditText noteBody = binding.editTextNoteBody;

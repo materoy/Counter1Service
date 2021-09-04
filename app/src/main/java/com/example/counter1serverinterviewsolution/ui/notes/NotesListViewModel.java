@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -36,18 +37,24 @@ public class NotesListViewModel extends ViewModel {
     private static final String TAG = "NOTE LIST VIEW MODEL";
     private MutableLiveData<ArrayList<Note>> notesLiveData;
     private ArrayList<Note> notesArrayList;
+    private MutableLiveData<Boolean> loading;
 
     NotesListViewModel() {
         notesLiveData = new MutableLiveData<>();
+        loading = new MutableLiveData<>();
     }
 
-    public MutableLiveData<ArrayList<Note>> getNotesMutableLiveData() {
+    public LiveData<ArrayList<Note>> getNotesLiveData() {
         return notesLiveData;
+    }
+
+    public LiveData<Boolean> getLoading() {
+        return loading;
     }
 
     public void init(LoggedInUser user) {
         this.user = user;
-        notesCollection =  db.collection(USERS_COLLECTION).document(user.getUserId()).collection(NOTES_COLLECTION);
+        notesCollection = db.collection(USERS_COLLECTION).document(user.getUserId()).collection(NOTES_COLLECTION);
         getAllNotes();
         notesLiveData.setValue(notesArrayList);
     }
@@ -62,7 +69,7 @@ public class NotesListViewModel extends ViewModel {
     // Queries the database for all the notes for the current user
     public void getAllNotes() {
         notesArrayList = new ArrayList<>();
-
+        loading.setValue(true);
         notesCollection.orderBy("timestamp").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -72,8 +79,9 @@ public class NotesListViewModel extends ViewModel {
                         notesArrayList.add(note);
                     }
 
-                    notesLiveData.setValue(notesArrayList);
                 }
+                loading.setValue(false);
+                notesLiveData.setValue(notesArrayList);
             }
         });
     }

@@ -14,13 +14,15 @@
     <EditText
         android:id="@+id/username"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="96dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/prompt_email"
+        android:paddingLeft="20dp"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
+        android:background="@drawable/rounded_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,16 +30,19 @@
     <EditText
         android:id="@+id/password"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="24dp"
+        android:background="@drawable/rounded_edit_text"
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
+        android:paddingLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.781"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
@@ -45,8 +50,8 @@
         android:id="@+id/text_view_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="72dp"
         android:text="@string/dontHaveAnAccount"
         android:textColor="@color/teal_700"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,9 +70,10 @@
         android:text="@string/Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.343" />
 
     <ProgressBar
         android:id="@+id/loading"

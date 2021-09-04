@@ -17,7 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-enum AuthenticationState { Authenticated , Unauthenticated }
+enum AuthenticationState {Authenticated, Unauthenticated}
 
 public class LoginViewModel extends ViewModel {
     private static LoginViewModel instance;
@@ -25,11 +25,13 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private MutableLiveData<AuthenticationState> authenticationStateMutableLiveData;
-    private FirebaseAuth mAuth ;
+    private MutableLiveData<Boolean> loading;
+    private FirebaseAuth mAuth;
 
     LoginViewModel() {
         mAuth = FirebaseAuth.getInstance();
         authenticationStateMutableLiveData = new MutableLiveData<>();
+        loading = new MutableLiveData<>();
         initAuthenticationState();
     }
 
@@ -40,16 +42,20 @@ public class LoginViewModel extends ViewModel {
         return instance;
     }
 
-    LiveData<AuthenticationState> getAuthenticationState() {
+    public LiveData<Boolean> getLoading() {
+        return loading;
+    }
+
+    public LiveData<AuthenticationState> getAuthenticationState() {
         return authenticationStateMutableLiveData;
     }
 
-    public LoggedInUser getUser(){
+    public LoggedInUser getUser() {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         return new LoggedInUser(firebaseUser.getUid(), firebaseUser.getDisplayName());
     }
 
-    private void initAuthenticationState(){
+    private void initAuthenticationState() {
         if (mAuth.getCurrentUser() != null) {
             authenticationStateMutableLiveData.setValue(AuthenticationState.Authenticated);
         } else {
@@ -63,12 +69,29 @@ public class LoginViewModel extends ViewModel {
 
 
     public void login(String email, String password) {
-
+        loading.setValue(true);
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    if(task.getResult().getUser() != null){
+                loading.setValue(false);
+                if (task.isSuccessful()) {
+                    if (task.getResult().getUser() != null) {
+                        authenticationStateMutableLiveData.setValue(AuthenticationState.Authenticated);
+                    }
+                }
+            }
+        });
+
+    }
+
+    public void signup(String email, String password) {
+        loading.setValue(true);
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                loading.setValue(false);
+                if (task.isSuccessful()) {
+                    if (task.getResult().getUser() != null) {
                         authenticationStateMutableLiveData.setValue(AuthenticationState.Authenticated);
                     }
                 }

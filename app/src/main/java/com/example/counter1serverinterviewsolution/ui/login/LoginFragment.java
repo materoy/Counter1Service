@@ -69,6 +69,20 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        /// Observes the authentication state and perfoms routing to new page on AuthenticationState.Authenticated
+        loginViewModel.getAuthenticationState().observe(getViewLifecycleOwner(), authenticationStateObserver);
+
+
+        /// Toggles between show and hide progress bar during and after an authentication action
+        loginViewModel.getLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean loading) {
+                if(loading)
+                    binding.loading.setVisibility(View.VISIBLE);
+                else
+                    binding.loading.setVisibility(View.GONE);
+            }
+        });
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -120,24 +134,17 @@ public class LoginFragment extends Fragment {
                         .navigate(R.id.action_loginFragment_to_signupFragment);
             }
         });
+
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        NavHostFragment.findNavController(this).navigate(R.id.action_splashFragment_to_notesListFragment);
-        if (getContext() != null && getContext().getApplicationContext() != null) {
-            Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        }
-    }
 
-    private void showLoginFailed(@StringRes Integer errorString) {
-        if (getContext() != null && getContext().getApplicationContext() != null) {
-            Toast.makeText(
-                    getContext().getApplicationContext(),
-                    errorString,
-                    Toast.LENGTH_LONG).show();
+    Observer authenticationStateObserver = new Observer<AuthenticationState>() {
+        @Override
+        public void onChanged(AuthenticationState authenticationState) {
+            if(authenticationState == AuthenticationState.Authenticated)
+                    NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_notesListFragment);
         }
-    }
+    };
 
     @Override
     public void onDestroyView() {

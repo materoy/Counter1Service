@@ -12,8 +12,9 @@
         android:id="@+id/text_view_note_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:textSize="22dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Hello this is the Note title" />
@@ -22,8 +23,9 @@
         android:id="@+id/text_view_note_body"
         android:layout_width="309dp"
         android:layout_height="19dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.617"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_note_title"
         tools:text="This is the description for the note like the body" />

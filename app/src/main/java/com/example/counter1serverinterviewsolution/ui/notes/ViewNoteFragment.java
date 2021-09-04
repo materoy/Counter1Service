@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.counter1serverinterviewsolution.R;
 import com.example.counter1serverinterviewsolution.data.model.Note;
@@ -54,7 +55,7 @@ public class ViewNoteFragment extends Fragment {
         }
 
         mViewModel = new ViewModelProvider(this, new NotesListViewModelFactory()).get(NotesListViewModel.class);
-        mNote = mViewModel.getNotesMutableLiveData().getValue().get(position);
+        mNote = mViewModel.getNotesLiveData().getValue().get(position);
 
         Log.e(TAG, "onCreate: " + mNote.getTitle() );
 
@@ -79,8 +80,12 @@ public class ViewNoteFragment extends Fragment {
             public void onClick(View v) {
                 String title = titleEditText.getText().toString();
                 String body = bodyEditText.getText().toString();
+                Note newNote = new Note(title, body, Calendar.getInstance().getTime(), mNote.getNoteId());
 
-                mViewModel.editNote(new Note(title, body, Calendar.getInstance().getTime(), mNote.getNoteId()), mNote);
+                mViewModel.editNote(newNote, mNote);
+                mNote = newNote;
+
+                Toast.makeText(getActivity(), "Note saved", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -88,6 +93,7 @@ public class ViewNoteFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mViewModel.deleteNote(mNote);
+                Toast.makeText(getActivity(), "Note Deleted", Toast.LENGTH_SHORT).show();
                 NavHostFragment.findNavController(ViewNoteFragment.this).navigate(R.id.action_viewNoteFragment_to_notesListFragment);
             }
         });

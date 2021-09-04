@@ -22,10 +22,12 @@
         android:id="@+id/edit_text_title"
         android:layout_width="336dp"
         android:layout_height="48dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/borderless_text_edit"
+
         android:hint="@string/noteTitleDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -33,11 +35,12 @@
         android:id="@+id/edit_text_note_body"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/borderless_text_edit"
         android:hint="@string/note"
-        android:minLines="5"
+        android:minLines="10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.342"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_title" />
 
@@ -45,7 +48,7 @@
         android:id="@+id/button_add_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="92dp"
         android:text="@string/addNote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
