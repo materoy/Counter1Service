@@ -17,30 +17,21 @@ import android.widget.EditText;
 import com.example.counter1serverinterviewsolution.R;
 import com.example.counter1serverinterviewsolution.data.model.Note;
 import com.example.counter1serverinterviewsolution.databinding.FragmentEditNoteBinding;
+import com.example.counter1serverinterviewsolution.ui.login.LoginViewModel;
+import com.example.counter1serverinterviewsolution.ui.login.LoginViewModelFactory;
 
 import java.util.Calendar;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditNoteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EditNoteFragment extends Fragment {
 
     private NotesListViewModel mViewModel;
+    private LoginViewModel loginViewModel;
 
     private FragmentEditNoteBinding binding;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private static final String ARG_NOTE = "note";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
     private Note note;
-    private String mParam2;
 
     public EditNoteFragment() {
         // Required empty public constructor
@@ -49,8 +40,6 @@ public class EditNoteFragment extends Fragment {
     public static EditNoteFragment newInstance(String param1, String param2) {
         EditNoteFragment fragment = new EditNoteFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,12 +47,10 @@ public class EditNoteFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
         mViewModel = new ViewModelProvider(this, new NotesListViewModelFactory()).get(NotesListViewModel.class);
+        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory()).get(LoginViewModel.class);
+        /// Initializes the userParam in the Notes view model
     }
 
     @Override
@@ -76,19 +63,21 @@ public class EditNoteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mViewModel.init(loginViewModel.getUser());
 
         EditText noteTitle = binding.editTextTitle;
         EditText noteBody = binding.editTextNoteBody;
 
         Button addNoteButton = binding.buttonAddNote;
 
+        /// Navigates to the add note page
         addNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String title = noteTitle.getText().toString();
                 String body = noteBody.getText().toString();
                 if(!title.isEmpty() && !body.isEmpty()){
-                    note = new Note(title, body, Calendar.getInstance().getTime(), "noteId");
+                    note = new Note(title, body, Calendar.getInstance().getTime());
 
                     /// Adds a note to the view model
                     mViewModel.createNote(note);

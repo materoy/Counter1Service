@@ -18,16 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.counter1serverinterviewsolution.R;
-import com.example.counter1serverinterviewsolution.data.SampleNotes;
 import com.example.counter1serverinterviewsolution.data.model.Note;
 import com.example.counter1serverinterviewsolution.databinding.FragmentNotesListBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class NotesListFragment extends Fragment {
 
@@ -62,21 +57,26 @@ public class NotesListFragment extends Fragment {
         Observer<ArrayList<Note>> notesListUpdateObserver = new Observer<ArrayList<Note>>() {
             @Override
             public void onChanged(ArrayList<Note> notesArrayList) {
-                System.out.println("New items");
-                System.out.println(notesArrayList.size());
                 notesRecyclerViewAdapter = new NotesRecyclerViewAdapter(notesArrayList);
                 notesRecyclerView.setLayoutManager(new LinearLayoutManager(NotesListFragment.this.getContext()));
                 notesRecyclerView.setAdapter(notesRecyclerViewAdapter);
+
+                notesRecyclerViewAdapter.setOnItemClickListener(new NotesRecyclerViewAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("NotePosition", position);
+                        NavHostFragment.findNavController(NotesListFragment.this).navigate(R.id.action_notesListFragment_to_viewNoteFragment, bundle);
+                    }
+                });
             }
         };
+
 
         mViewModel.getNotesMutableLiveData().observe(NotesListFragment.this.getViewLifecycleOwner(), notesListUpdateObserver);
 
         return binding.getRoot();
     }
-
-
-
 
 
     @Override

@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.counter1serverinterviewsolution.data.dao.NotesDataSource;
-import com.example.counter1serverinterviewsolution.data.repository.NotesRepository;
 
 
 public class NotesListViewModelFactory implements  ViewModelProvider.Factory {
@@ -17,15 +15,15 @@ public class NotesListViewModelFactory implements  ViewModelProvider.Factory {
     @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(NotesListViewModel.class)) {
-            return (T) NotesListViewModelFactory.getInstance(NotesRepository.getInstance(new NotesDataSource()));
+            return (T) NotesListViewModelFactory.getInstance();
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }
     }
 
-    public static NotesListViewModel getInstance(NotesRepository notesRepository) {
+    public static NotesListViewModel getInstance() {
         if (instance == null) {
-            instance = new NotesListViewModel(notesRepository);
+            instance = new NotesListViewModel();
         }
         return instance;
     }
